@@ -6,10 +6,10 @@
     define([ 'jquery',
         'utils/colors',
         'Fn',
-        'jquery/jquery.tmpl',
-        'jquery/jquery.cookie',
-        'jquery/jquery.ui.draggable',
-        'jquery/jquery.ui.slider' ], function() {
+        'jquery/plugins/jquery.tmpl',
+        'jquery/plugins/jquery.cookie',
+        'jquery/ui/draggable',
+        'jquery/ui/slider' ], function() {
       var module = factory.apply(this, arguments);
       return module;
     });

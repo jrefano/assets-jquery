@@ -1,7 +1,7 @@
 /*jslint sloppy:true */
 (function(factory) {
   if (typeof require === 'function') {
-    require(['jquery', 'utils/spin', 'Core', 'Fn' ], factory);
+    require(['jquery', 'vendor/spin', 'Core', 'Fn' ], factory);
   }
   else {
     factory($, Spinner, $.Core);

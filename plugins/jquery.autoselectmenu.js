@@ -1,4 +1,4 @@
-define(['jquery', 'jquery/jquery.ui.selectmenu'], function($) {
+define(['jquery', 'jquery/plugins/jquery.ui.selectmenu'], function($) {
 
   "use strict";
 
