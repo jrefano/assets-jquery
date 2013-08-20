@@ -37,29 +37,6 @@
             'z-index'  :  _params.innerZIndex
           });
 
-          if ( $.browser.msie ) {
-
-            var b_version = ( navigator.appVersion ) ? navigator.appVersion : false;
-
-            b_version = ( b_version && typeof(b_version) == 'string' ) ? parseFloat( b_version.replace(/.+MSIE\s([^;]+);.+/,"$1") ) : false;
-
-            if ( b_version && b_version < 7 ) {
-
-              _shim = $('<iframe src="#" style="position:absolute;width:100px;height:120px;top:0px;left:0px;border:none;display:block;z-index:500"></iframe>');
-
-              _body.append(_shim);
-
-              _shim.css({
-                'position' : 'absolute',
-                'display'  : 'block',
-                'z-index'  :  0,
-                'border'   : 'none'
-              });
-
-            } // if ie < 7
-
-          } // if ie
-
           _self.addClass('popup-inner');
 
           if ( _params.innerClass ) {
