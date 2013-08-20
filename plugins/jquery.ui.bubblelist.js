@@ -23,7 +23,7 @@
     _optionHandler: {
       'disabled' : function(key, value) {
         this.widget()[ value ? "addClass" : "removeClass"](
-            this.widgetBaseClass + "-disabled" + " " +
+            this.widgetFullName + "-disabled" + " " +
             "ui-state-disabled" )
           .attr( "aria-disabled", value );
       },
