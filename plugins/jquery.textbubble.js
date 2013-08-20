@@ -442,13 +442,9 @@
 
       if ( auto_focus === true ) {
 
-        // for some reason IE8 won't autofocus withotu a timeout
-        if ( $.browser.msie && $.browser.version <= 8 ) {
-          setTimeout( function() { $input.focus(); });
-        }
-        else {
-          $input.focus();
-        }
+        // for some reason IE8 won't autofocus without a timeout
+        // TODO: Remove this line once IE8 support is removed
+        setTimeout( function() { $input.focus(); });
 
       } // if aut_focus === true
 
