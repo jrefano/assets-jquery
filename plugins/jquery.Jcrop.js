@@ -1,6 +1,6 @@
 /**
  * jquery.Jcrop.js v0.9.10
- * jQuery Image Cropping Plugin - released under MIT License 
+ * jQuery Image Cropping Plugin - released under MIT License
  * Author: Kelly Hallman <khallman@gmail.com>
  * http://github.com/tapmodo/Jcrop
  * Copyright (c) 2008-2012 Tapmodo Interactive LLC {{{
@@ -169,7 +169,7 @@
         if ((ord === 'move') && !options.allowMove) {
           return false;
         }
-        
+
         // Fix position of crop area when dragged the very first time.
         // Necessary when crop image is in a hidden element when page is loaded.
         docOffset = getPos($img);
@@ -255,7 +255,7 @@
     function newTracker() //{{{
     {
       var trk = $('<div></div>').addClass(cssClass('tracker'));
-      if (msie.msie) {
+      if (msie) {
         trk.css({
           opacity: 0,
           backgroundColor: 'white'
@@ -268,7 +268,7 @@
     // }}}
     // Initialization {{{
     // Sanitize some options {{{
-    
+
     if (typeof(obj) !== 'object') {
       obj = $(obj)[0];
     }
@@ -303,12 +303,12 @@
         $origimg.width($origimg[0].width);
         $origimg.height($origimg[0].height);
       } else {
-        // Obtain dimensions from temporary image in case the original is not loaded yet (e.g. IE 7.0). 
+        // Obtain dimensions from temporary image in case the original is not loaded yet (e.g. IE 7.0).
         var tempImage = new Image();
         tempImage.src = $origimg[0].src;
         $origimg.width(tempImage.width);
         $origimg.height(tempImage.height);
-      } 
+      }
 
       var $img = $origimg.clone().removeAttr('id').css(img_css).show();
 
@@ -326,8 +326,8 @@
 
     var boundx = $img.width(),
         boundy = $img.height(),
-        
-        
+
+
         $div = $('<div />').width(boundx).height(boundy).addClass(cssClass('holder')).css({
         position: 'relative',
         backgroundColor: options.bgColor
@@ -339,24 +339,24 @@
 
     var $img2 = $('<div />'),
 
-        $img_holder = $('<div />') 
+        $img_holder = $('<div />')
         .width('100%').height('100%').css({
           zIndex: 310,
           position: 'absolute',
           overflow: 'hidden'
         }),
 
-        $hdl_holder = $('<div />') 
-        .width('100%').height('100%').css('zIndex', 320), 
+        $hdl_holder = $('<div />')
+        .width('100%').height('100%').css('zIndex', 320),
 
-        $sel = $('<div />') 
+        $sel = $('<div />')
         .css({
           position: 'absolute',
           zIndex: 600
         }).dblclick(function(){
           var c = Coords.getFixed();
           options.onDblClick.call(api,c);
-        }).insertBefore($img).append($img_holder, $hdl_holder); 
+        }).insertBefore($img).append($img_holder, $hdl_holder);
 
     if (img_mode) {
 
@@ -392,7 +392,7 @@
     // }}}
     // }}}
     // Internal Modules {{{
-    // Touch Module {{{ 
+    // Touch Module {{{
     var Touch = (function () {
       // Touch support detection function adapted (under MIT License)
       // from code by Jeffrey Sambells - http://github.com/iamamused/
@@ -529,8 +529,8 @@
         var aspect = options.aspectRatio,
             min_x = options.minSize[0] / xscale,
             min_y = options.minSize[1] / yscale,
-            
-            
+
+
             //min_y = options.minSize[1]/yscale,
             max_x = options.maxSize[0] / xscale,
             max_y = options.maxSize[1] / yscale,
@@ -600,7 +600,7 @@
             yy = y1 - (x1 - xx) / aspect;
           }
         }
-        
+
         if (xx < 0) {
           x1 -= xx;
           xx = 0;
@@ -616,28 +616,28 @@
           y1 -= yy - boundy;
           yy = boundy;
         }
-        
+
         /**
          * BUG FIXES BY @dave_stein
          * Debugging above this was too hard so fixing after the bad math is already done
          * If needing to flip around box, but flip would be out of bounds
          */
         if ( x1 == xx && y1 == yy ) {
-        
+
           if ( x1 == 0 ) {
             xx = min_x;
           }
           else {
             x1 = xx - min_x;
           }
-          
+
           if ( y1 == 0 ) {
             yy = min_y;
           }
           else {
             y1 = yy - min_y;
           }
-          
+
         }
 
         return makeObj(flipCoords(x1, y1, xx, yy));
@@ -1072,7 +1072,7 @@
       {
         seehandles = false;
         $hdl_holder.hide();
-      } 
+      }
       //}}}
       function animMode(v) //{{{
       {
@@ -1081,13 +1081,13 @@
         } else {
           enableHandles();
         }
-      } 
+      }
       //}}}
       function done() //{{{
       {
         animMode(false);
         refresh();
-      } 
+      }
       //}}}
       // Insert draggable elements {{{
       // Insert border divs for outline
@@ -1143,7 +1143,7 @@
         done: done
       };
     }());
-    
+
     //}}}
     // Tracker Module {{{
     var Tracker = (function () {
@@ -1166,7 +1166,7 @@
             .bind('mousemove.jcrop',trackMove)
             .bind('mouseup.jcrop',trackUp);
         }
-      } 
+      }
       //}}}
       function toBack() //{{{
       {
@@ -1174,13 +1174,13 @@
           zIndex: 290
         });
         $(document).unbind('.jcrop');
-      } 
+      }
       //}}}
       function trackMove(e) //{{{
       {
         onMove(mouseAbs(e));
         return false;
-      } 
+      }
       //}}}
       function trackUp(e) //{{{
       {
@@ -1599,7 +1599,7 @@
       }
     };
 
-    if (msie.msie)
+    if (msie)
       $div.bind('selectstart', function () { return false; });
 
     $origimg.data('Jcrop', api);
