@@ -25,7 +25,7 @@
   var CLOSE_EVT = 'mousedown',
       Menu, $active_element, $menu, menu_height, menu_width, $palette, palette_height,
       palette_width, $input, $r, $g, $b, $selector, $hue, $original_swatch,
-      $current_swatch, element_width, $cancel_btn, $save_btn, $body, 
+      $current_swatch, element_width, $cancel_btn, $save_btn, $body,
       $spot, $spots, $add_color, $saved_colors;
 
   $.widget( "ui.colorpicker", $.extend({}, {
@@ -58,8 +58,8 @@
     is_open     : false,
 
     _init : function() {
-    
-      opts = this.options;
+
+      var opts = this.options;
 
       $body = $(document.body);
 
@@ -81,7 +81,7 @@
       this.open   = this.open.bind( this );
 
       this.element.on( 'click', this.open );
-      
+
       this.element.on( 'colorpickerupdate', function( e, ui ) {
 
         if ( this.options.auto_target_update === true && this.options.$target ) {
@@ -123,7 +123,7 @@
           offsetLeft : element_width+15,
           offsetTop  : Math.round( menu_height / 2 ) * -1
         });
-        
+
         // Now that menu is positioned, check that it's not off the page
         menu_offset = $menu.offset();
 
@@ -337,7 +337,7 @@
   Menu = {
 
     updating_from_input : false,
-    
+
     // Creates single menu for all colorpickers
     _create : function( widget ) {
 
@@ -358,19 +358,19 @@
 
       // Generate actual DOM node from template
       $menu = $template.tmpl({});
-      
+
       $menu.addClass( 'ui-colorpicker-menu' );
 
       // Add menu to body
       $(document.body).append( $menu.hide() );
-      
+
       // User can drag menu
       $menu.draggable({
         containment : $(document.body)
       });
-      
+
       widget._trigger( 'menucreated' );
-      
+
       // Make sure clicking menu does not close itself
       $menu.on( CLOSE_EVT, function( e ) {
         e.stopPropagation();
@@ -416,57 +416,59 @@
       $r.on( 'change', this._updateFromRGBInputs.bind( this ) );
       $g.on( 'change', this._updateFromRGBInputs.bind( this ) );
       $b.on( 'change', this._updateFromRGBInputs.bind( this ) );
-      
+
       if ( $spots.length ) {
         this._initSpots();
       }
-      
+
       return $menu;
 
     }, // _create
-    
+
     _initSpots : function() {
-    
+
+      var opts = this.options;
+
       if ( typeof $.cookie !== 'undefined' && $.cookie("spot_colors") ) {
         opts.spot_colors = $.cookie("spot_colors").split(',');
       }
-    
+
       $spots.each( function( inc, spot ) {
-    
+
         var $spot      = $(spot),
             spot_color = opts.spot_colors[ inc ];
-        
+
         if ( spot_color === 'unselected' ) {
           spot_color = opts.default_spot_color;
           $spot.data('unselected',true);
         }
-        
+
         $spot.css( 'background-color', '#' + spot_color );
-        
+
         $spot.on( 'click', function() {
-        
+
           var $unselected =  $spots.filter(':data(unselected)'),
               new_hex     = Colors.checkHex( $spot.css('background-color'), true );
-          
+
           $input.val( new_hex );
           $input.trigger( 'change' );
 
           $spots.removeClass('selected');
           $spot.addClass('selected');
           $add_color.text( 'Add' );
-          
+
           if ( opts.default_spot_color !== new_hex ) {
             $add_color.text( 'Replace' );
           }
-          
+
         });
-        
-      
-      
+
+
+
       }.bind( this )); // $spots each
-      
+
       $add_color.on( 'click', function() {
-    
+
         var $selected   = $spots.filter('.selected'),
             position    = 0,
             $unselected = $spots.filter(':data(unselected)');
@@ -474,33 +476,33 @@
         if ( !$selected.length ) {
           $selected = $unselected.first();
         }
-        
+
         $selected.removeData( 'unselected' );
-        
+
         position = $.inArray( $selected[0], $spots );
-      
+
         opts.spot_colors[ position ] = $input.val();
-        
+
         $selected.css( 'background-color', '#' + $input.val() );
-        
+
         $add_color.text( 'Replace' );
-        
+
         if ( typeof $.cookie !== 'undefined'  ) {
           $.cookie("spot_colors", opts.spot_colors.join(','), { path : '/', expires: new Date(9999999999999) });
         }
-      
+
       }); // $add_color
-      
-      
+
+
       if ( $spots.filter(':data(unselected)').length === 0 ) {
         $add_color.text( 'Replace' );
       }
-    
+
     }, // _initSpots
 
     open : function() {
 
-      var widget = $active_element.data( 'colorpicker' );
+      var widget = $active_element.data( 'uiColorpicker' );
 
       $save_btn.on( 'click', widget.close );
       $cancel_btn.on( 'click', widget.cancel );
@@ -511,7 +513,7 @@
 
     close : function() {
 
-      var widget = $active_element.data( 'colorpicker' );
+      var widget = $active_element.data( 'uiColorpicker' );
 
       $save_btn.off( 'click', widget.close );
       $cancel_btn.off( 'click', widget.cancel );
@@ -638,7 +640,7 @@
     // Updates inputs, background, and current hex values
     _updateAllValues : function( hex, rgb ) {
 
-      var widget = $active_element.data( 'colorpicker' );
+      var widget = $active_element.data( 'uiColorpicker' );
 
       if ( !rgb ) {
         rgb = Colors.hex2rgb( hex );
@@ -657,7 +659,7 @@
     _updateFromHue : function( hue_value ) {
 
       // figure out where selector is in palette
-      var widget          = $active_element.data( 'colorpicker' ),
+      var widget          = $active_element.data( 'uiColorpicker' ),
           selector_left   = parseInt( $selector[0].style.left, 10 ),
           selector_top    = parseInt( $selector[0].style.top, 10 ),
           left_percentage = selector_left / palette_width,
