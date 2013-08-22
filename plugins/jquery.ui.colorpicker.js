@@ -418,16 +418,16 @@
       $b.on( 'change', this._updateFromRGBInputs.bind( this ) );
 
       if ( $spots.length ) {
-        this._initSpots();
+        this._initSpots(widget);
       }
 
       return $menu;
 
     }, // _create
 
-    _initSpots : function() {
+    _initSpots : function(widget) {
 
-      var opts = this.options;
+      var opts = widget.options;
 
       if ( typeof $.cookie !== 'undefined' && $.cookie("spot_colors") ) {
         opts.spot_colors = $.cookie("spot_colors").split(',');
