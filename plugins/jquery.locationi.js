@@ -31,24 +31,24 @@
           city_request        = false, // ajax request for city
           auto_params         = {},
           $country_option, default_country_value;
-          
-      // The defaults from options are setup before any hooks are set on change 
+
+      // The defaults from options are setup before any hooks are set on change
       if ( options.state ) {
         $state.changeInput( 'value', options.state );
       }
-      
+
       if ( options.province ) {
         $province.changeInput( 'value', options.province );
       }
-      
+
       if ( options.country ) {
-        
+
         $country_option = $country.find( '[code=' + options.country + ']' );
-        
-        default_country_value = ( $country_option.attr( 'value' ) )
-                                ? $country_option.attr( 'value' )
-                                : $country_option.text();
-        
+
+        default_country_value = ( $country_option.attr( 'value' ) ) ?
+          $country_option.attr( 'value' ) :
+          $country_option.text();
+
         $country.changeInput( 'value', default_country_value );
       }
 
@@ -97,7 +97,7 @@
 
       // Hook up country change actions
       $country.on( 'change keyup', function() {
-      
+
         if ( city_request ) {
           city_request.abort();
         }
@@ -105,12 +105,12 @@
         var show_state_func    = 'addClass',
             show_province_func = 'addClass',
             show_city_func     = 'enable';
-            
+
         // Reset fields
         resetCity();
         $province.changeInput( 'value', '' );
         $state.changeInput( 'value', '' );
-        
+
         // US should show state dropdown, hide city until state is chosen
         if ( this.value === 'US' || this.value === 'United States' ) {
           show_state_func = 'removeClass';
@@ -153,9 +153,7 @@
               style: 'dropdown',
               maxHeight: 200,
               menuWidth : ( $this.outerWidth() > option_width ) ? $this.outerWidth() : option_width
-            })
-            .bind( 'change', updateUi )
-            .bind( 'keyup', updateUi );
+            });
           }
 
         }); // each $state $province
@@ -176,11 +174,11 @@
         templateOption    : options.templateOption,
         templateForm      : options.templateForm
       };
-      
+
       if ( options.city ) {
         auto_params.defaultValues = options.city;
       }
-      
+
       // Hook up city autocomplete and then it's change actions
       $city.autocomplete( auto_params)
       .on( 'beforeAddSelection', function( e, templateData ) {
@@ -256,7 +254,7 @@
 
         var val       = $(this).val(),
             city_func = ( val || ( !$(this).is(':visible') && val ) ) ? 'enable' : 'disable';
-        
+
         // Guard against external forces changing dropdown
         if ( $country.val() && $country.val() !== 'US' && $country.val() !== 'CA' ) {
           city_func = 'enable';
