@@ -1,3 +1,4 @@
+/*global jQuery, Config */
 (function($) {
 
   $.widget('be.autocomplete', $.extend( true, {}, $.ui.coreext, $.ui.listselector, {
@@ -32,7 +33,7 @@
     }, // hideOptions
 
     _init : function() {
-    
+
       var thisObj          = this,
           $template        = false;
 
@@ -86,9 +87,9 @@
       Config.$document.ready(function() {
         Config.$body.bind('mouseup', thisObj, thisObj._checkClose);
       });
-      
+
       this._field.on( 'beforeClickReset', function() {
-        
+
         if ( this.selectFieldData( false ) === true ) {
           return false;
         }
@@ -98,14 +99,14 @@
 
       // Retrieve and load the autocomplete options.
       this._loadDataSource();
-      
+
       this._field.on( 'contextmenu ', function( e ) {
         return false;
       });
 
       // This seems to be the function that actually searches
       this._field.bind('runFunction', function(trigger, evt) {
-      
+
         // Don't run anything if user hit keys that are jsut going to select all or things liek that
         if ( evt.ctrlKey === true || evt.metaKey === true ) {
 
@@ -122,7 +123,7 @@
           }
 
         }
-        
+
         if ( !thisObj._field.throttler('currentValue') ) {
           thisObj.element.trigger( 'noValue' );
         }
@@ -208,7 +209,7 @@
     }, // destroy
 
     _runFunction : function () {
-    
+
       var current_value = this._field.throttler('currentValue');
 
       this._open = ( !current_value ) ? false : true;
@@ -281,11 +282,11 @@
         var matched = true;
 
         field = $.isFunction( field ) ? field.call(val) : field ;
-        
+
 
         // Loop through the expressions made by each word
         $.each(exprs, function(){
-        
+
           if( ! field.match(this) ) {
             matched = false;
             return;
@@ -297,7 +298,7 @@
             return;
           }
         });
-        
+
         return matched;
 
       } // matching
@@ -331,26 +332,26 @@
 
       // If the text matchs, push the index into an array
       $.each(thisObj._data, function(i, val){
-      
+
 
         var selected_check = ( thisObj.options.class_values ) ? val : i,
             match          = false,
             match_against  = ( thisObj.options.matcher ) ?
                              thisObj.options.matcher.apply( val ) :
                              { data: val, fields : [ val[ thisObj.options.data_field ] ] };
-                            
-        if ( match_against === false || $.inArray( selected_check, thisObj._selected_values) >= 0 ) { 
-          return; 
+
+        if ( match_against === false || $.inArray( selected_check, thisObj._selected_values) >= 0 ) {
+          return;
         }
 
 
         // Loop through every field to find match
         $.each( match_against.fields, function( index, field ) {
-        
+
           // If the data is an instance of a class he field must be gotten via a function
           field = ( thisObj.options.class_values ) ?
                   match_against.data[ field ] : field;
-        
+
           if ( !match ) {
             match = matching( field, match_against.data );
           }
@@ -359,7 +360,7 @@
           if ( match ) {
             return false;
           }
-        
+
         }); // each match against fields
 
         if ( match ) {
@@ -367,7 +368,7 @@
         }
 
       }); // each data
-      
+
       if (!thisObj._handleMatches(matches)) {
         return;
       }
@@ -375,7 +376,7 @@
       if (  thisObj.options.displayLimit > 0 ) {
         matches = matches.slice( 0, +( thisObj.options.displayLimit ) );
       }
-      
+
       if (thisObj.options.highlight){
         highlighted_results = thisObj._highlightTerms( matches, terms );
         thisObj._createOptions( highlighted_results );
@@ -499,7 +500,7 @@
           if ( parseFloat( i ) === parseFloat( thisObj.options.displayLimit) ) {
             return false;
           }
-          
+
           thisObj.template(this, thisObj.options.templateOption )
             .appendTo(thisObj._options)
             .data('templateData',this).addClass('cfix');
@@ -514,7 +515,7 @@
     _showOptions : function() {
 
       this._options.show();
-      
+
       $(window).bind( 'resize scroll', this.positionOptionsProxy );
 
       this.positionOptions();
@@ -522,7 +523,7 @@
     }, // _showOptions
 
     positionOptions : function() {
-    
+
       var clone_to = this.options.list_position_element || this._field;
 
       this._options_wrap.clonePosition( clone_to, {
@@ -545,32 +546,32 @@
           $form         = false,
           created       = false,
           match         = false;
-          
+
       function matching( field, val ) {
-      
+
         field = $.isFunction( field ) ? field.call( val ) : field ;
-        
+
         if ( field.toLowerCase() !== value.toLowerCase() ) {
           return false;
         }
-        
+
         templateData = ( thisObj.options.class_values ) ?
                        { Klass : val } : val;
-                       
+
         return true;
-      
-      
+
+
       } // matched
 
       $.each(this.listData(), function(i, val) {
-      
+
         var match_against = ( thisObj.options.matcher ) ?
                             thisObj.options.matcher.apply( val ) :
                             { data: val, fields : [ val[ thisObj.options.data_field ] ] };
-      
+
 
         $.each( match_against.fields, function( index, field ) {
-        
+
            field = ( thisObj.options.class_values ) ?
                     match_against.data[ field ] : field;
 
@@ -581,14 +582,14 @@
 
         }); // each data_field
 
-        
-        
+
+
         // Match found so no need to search further list
         if ( match ) {
           return false;
         }
-      
-        
+
+
       }); // each listData
 
       if ( !templateData ) {
@@ -617,7 +618,7 @@
           templateData = {
             id : value,
             n : value
-          }
+          };
         }
 
       }
@@ -627,10 +628,10 @@
       } // if filtering, add the filter value as the category
 
       // Will be false if event was stopped via beforeAddSelection
-      
+
       this.refocus();
       created = this.createSelection( templateData, refocus );
-      
+
       return created;
 
     }, // selectFieldData
@@ -878,8 +879,8 @@
         $('.form-item.autocomplete').each( function(){
           var $this = $(this);
 
-          if ( $this.attr('id') !== thisObj._id.toString() && $this.data().autocomplete._favorites_on ){
-            $this.data().autocomplete._toggleFavorites();
+          if ( $this.attr('id') !== thisObj._id.toString() && $this.data('beAutocomplete')._favorites_on ){
+            $this.data('beAutocomplete')._toggleFavorites();
           }
         });
 
