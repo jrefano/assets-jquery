@@ -315,7 +315,7 @@
 
     _good_value : function( value ) {
 
-      value = value.toString();
+      value = $.trim( value.toString() );
 
       var lower_value = value.toLowerCase();
 
@@ -343,6 +343,13 @@
 
       }
 
+      if ( $.inArray( value, this.dataArray() ) !== -1 ) {
+
+        this.element.trigger( 'textboxlist.duplicate', [ value ] );
+        return false;
+
+      }
+
       // This should be last always or it may try to say limit is hit on a bad value
       if ( this.options.limit && this.dataArray().length >= this.options.limit ) {
         this.element.trigger( 'textboxlist.limitHit', [ value ] );
@@ -357,7 +364,7 @@
 
       auto_focus = ( auto_focus === false ) ? false : true;
 
-      var value       = input.value,
+      var value       = $.trim( input.value ),
           $input      = $(input),
           $li         = $input.parent();
 
