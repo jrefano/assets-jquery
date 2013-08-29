@@ -1,4 +1,5 @@
 /*jslint sloppy:true */
+/*global jQuery */
 /********************************************************************
  * jQuery plugin: changeInput()
  * Usage:
@@ -26,7 +27,8 @@ $.fn.changeInput = function( option, state, options ) {
 
         // Update element properties.
         if ( typeof state !== 'undefined' && (option === 'val' || option === 'value') ) {
-          if ( $this.data('uiSelectmenu') ) {
+          // This is to account for jQueryUI 1.10 behavior of namespaced data elements AND old jQueryUI
+          if ( $this.data('uiSelectmenu') || $this.data('selectmenu') ) {
             $this.selectmenu( 'value', state );
           }
           else {
@@ -77,7 +79,7 @@ $.fn.changeInput = function( option, state, options ) {
               $this.next().addClass(className);
             }
 
-            if ( $this.data('uiSelectmenu') ) {
+            if ( $this.data('uiSelectmenu') || $this.data('selectmenu') ) {
               $this.selectmenu( 'disable' );
             }
 
@@ -90,7 +92,7 @@ $.fn.changeInput = function( option, state, options ) {
               $this.next().removeClass(className);
             }
 
-            if ( $this.data('uiSelectmenu') ) {
+            if ( $this.data('uiSelectmenu') || $this.data('selectmenu') ) {
               $this.selectmenu( 'enable' );
             }
 
