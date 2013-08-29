@@ -14,7 +14,7 @@ define(['jquery', 'jquery/plugins/jquery.ui.selectmenu'], function($) {
 
         // Don't do anything if it's already customized or if it's hidden.
         // TODO: Determine if initializing hidden ones still breaks things
-        if ( $select.data('selectmenu') || !$select.is(':visible') ) {
+        if ( $select.data('uiSelectmenu') || !$select.is(':visible') ) {
           return;
         }
 
