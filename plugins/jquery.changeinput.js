@@ -12,7 +12,7 @@
 $.fn.changeInput = function( option, state, options ) {
 
   var extra_event_args = ( typeof options === 'object' && typeof options.extra_event_args !== 'undefined' ) ? options.extra_event_args : [];
-  
+
   if ( typeof( option ) != 'undefined' ) {
 
     $(this).each(function(i) {
@@ -26,7 +26,7 @@ $.fn.changeInput = function( option, state, options ) {
 
         // Update element properties.
         if ( typeof state !== 'undefined' && (option === 'val' || option === 'value') ) {
-          if ( $this.data('selectmenu') ) {
+          if ( $this.data('uiSelectmenu') ) {
             $this.selectmenu( 'value', state );
           }
           else {
@@ -72,30 +72,30 @@ $.fn.changeInput = function( option, state, options ) {
           // Trigger custom events.
           if ( disabled ) {
             $this.addClass(className).trigger('disable', extra_event_args).attr('disabled', true);
-            
+
             if ($this.is('select')){
               $this.next().addClass(className);
             }
-            
-            if ( $this.data('selectmenu') ) {
+
+            if ( $this.data('uiSelectmenu') ) {
               $this.selectmenu( 'disable' );
             }
-            
-            
+
+
           }
           else {
             $this.removeClass(className).attr('disabled', false).trigger('enable', extra_event_args);
-            
+
             if ($this.is('select')){
               $this.next().removeClass(className);
             }
-            
-            if ( $this.data('selectmenu') ) {
+
+            if ( $this.data('uiSelectmenu') ) {
               $this.selectmenu( 'enable' );
             }
-            
+
           }
-          
+
         }
 
       }
