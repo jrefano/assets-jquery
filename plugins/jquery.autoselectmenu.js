@@ -7,7 +7,10 @@ define(['jquery', 'jquery/plugins/jquery.ui.selectmenu'], function($) {
     return this.each( function() {
       var $select      = $(this),
           option_width = $select.find('option').outerWidth(),
-          params       = {};
+          params       = {},
+          updateUi     = function() {
+            $select.changeInput( 'value', this.value );
+          };
 
         // Don't do anything if it's already customized or if it's hidden.
         // TODO: Determine if initializing hidden ones still breaks things
@@ -35,7 +38,7 @@ define(['jquery', 'jquery/plugins/jquery.ui.selectmenu'], function($) {
           params.width = 'auto';
         }
 
-        $select.selectmenu(params);
+        $select.selectmenu(params).on( 'change keyup', updateUi );
 
     });
 
