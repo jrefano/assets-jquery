@@ -3,8 +3,10 @@
 // Author: Anthony Garand
 // Improvements by German M. Bravo (Kronuz) and Ruud Kamphuis (ruudk)
 // Improvements by Leonardo C. Daronco (daronco)
+// Behance Mods: Sean Dunn
 // Created: 2/14/2011
 // Date: 2/12/2012
+// Date (Mod): 6/19/2013
 // Website: http://labs.anthonygarand.com/sticky
 // Description: Makes an element on the page stick on the screen as you scroll
 //       It will only set the 'top' and 'position' of your element, you
@@ -19,19 +21,18 @@
       center: false,
       getWidthFrom: ''
     },
-    $window = $(window),
     $document = $(document),
     sticked = [],
-    windowHeight = $window.height(),
-    scroller = function() {
-      var scrollTop = $window.scrollTop(),
-        documentHeight = $document.height(),
+    scroller = function($context) {
+      var scrollTop = $context.scrollTop(),
+        windowHeight = $(window).height(),
+        documentHeight = $context.is($(window)) ? $(document).height() : $context.height(),
         dwh = documentHeight - windowHeight,
         extra = (scrollTop > dwh) ? dwh - scrollTop : 0;
 
       for (var i = 0; i < sticked.length; i++) {
         var s = sticked[i],
-          elementTop = s.stickyWrapper.offset().top,
+          elementTop = $context.is($(window)) ? s.stickyWrapper.offset().top : s.stickyWrapper.offset().top - $context.offset().top,
           etse = elementTop - s.topSpacing - extra;
 
         if (scrollTop <= etse) {
@@ -66,12 +67,20 @@
         }
       }
     },
-    resizer = function() {
-      windowHeight = $window.height();
-    },
     methods = {
-      init: function(options) {
+      init: function(options, $context) {
+        $context = $context || $(window);
+
         var o = $.extend({}, defaults, options);
+
+        $context.each(function () {
+          if (this.addEventListener) {
+            this.addEventListener('scroll', function () { scroller($context); }, false);
+          } else if (this.attachEvent) {
+            this.attachEvent('onscroll', function () { scroller($context); });
+          }
+        });
+
         return this.each(function() {
           var stickyElement = $(this),
           stickyId = stickyElement.attr('id'),
@@ -105,18 +114,12 @@
           sticked.push(stickyData);
         });
       },
-      update: scroller
-    };
+      update: function ($context) {
+        $context = $context || $(window);
 
-  // should be more efficient than using $window.scroll(scroller) and $window.resize(resizer):
-  if (window.addEventListener) {
-    window.addEventListener('scroll', scroller, false);
-    window.addEventListener('touchmove', scroller, false);
-    window.addEventListener('resize', resizer, false);
-  } else if (window.attachEvent) {
-    window.attachEvent('onscroll', scroller);
-    window.attachEvent('onresize', resizer);
-  }
+        scroller($context);
+      }
+    };
 
   $.fn.sticky = function(method) {
     if (methods[method]) {
@@ -128,6 +131,6 @@
     }
   };
   $(function() {
-    setTimeout(scroller, 0);
+    setTimeout(function () { scroller($(window)); }, 0);
   });
 })(jQuery);
