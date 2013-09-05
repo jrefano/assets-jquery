@@ -15,7 +15,7 @@
 
 
   return $.widget( "be.autoselect", $.be.autosuggest, {
-    
+
     options: {
       limit: 0,
       toggle: false,
@@ -40,9 +40,9 @@
         }
       });
 
-      this._selected = $.isArray(this.options.value) 
-        ? this.options.value 
-        : [];
+      this._selected = $.isArray(this.options.value) ?
+        this.options.value :
+        [];
 
       if (this._selected.length) {
         // Suppress initial value event
@@ -52,7 +52,7 @@
 
     select: function( data ) {
       data = $.isArray(data) ? data : [data];
-      var i, j, item, changed = false; 
+      var i, j, item, changed = false;
 
       for (j=0; j<data.length; ++j) {
         item = data[j];
@@ -77,7 +77,7 @@
     },
 
     unselect: function( data ) {
-      var i; 
+      var i;
 
       if ( (i = this._selected.indexOf( data )) >= 0 ) {
         this._selected.splice(i,1);

@@ -28,7 +28,7 @@
       }
     },
 
-	_resizeMenu: function() {
+    _resizeMenu: function() {
       var ul = this.menu.element,
       width = this.options.width;
 
@@ -38,7 +38,7 @@
       else {
         this._super();
       }
-	},
+    },
 
     _renderItem: function( ul, item ) {
       var templater = this.options.itemTemplate;
