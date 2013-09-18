@@ -22,32 +22,32 @@
       $.map(['data_src', 'delimiter', 'defaultValues', 'blacklist'], function(name) {
         self._optionHandler[name].call(self, name, self.options[name]);
       });
-      
+
       this.element.addClass( 'selectbubble' );
 
     }, // _create
 
     _init: function() {
       var self = this, list = this._list = $('<ul/>'), defval;
-      
+
       if ( this.element.data('value') ) {
-      
+
         // TODO: Possibly make split an option so it can be on | vs space.
         this.element.data('value').toString().split(' ').forEach( function( id ) {
-        
+
           var value = self.element.find( 'option[value=' + id + ']' ).text();
-        
-          if ( $.inArray( value, self.options.blacklist ) > -1 ) { 
-            return; 
+
+          if ( $.inArray( value, self.options.blacklist ) > -1 ) {
+            return;
           }
-          
+
           self._makeBubbleWithData({
             id : parseFloat( id ),
             n : value
           });
-          
+
         }); // forEach
-      
+
       } // if data value
 
       // prepopulating the list
@@ -70,7 +70,9 @@
 
       list.addClass( this.options.list_classes.join(' ') );
 
-      this.element.after( list ).selectmenu( this.options.selectmenu );
+      this.element.selectmenu( this.options.selectmenu )
+      .parent()
+        .append( list );
 
       defval = this.element.selectmenu('index');
 
@@ -78,10 +80,10 @@
         var key = option.value,
             value = $(option.option).text();
 
-        if ( !key.length || $.inArray( key, self.options.blacklist ) > -1 ) { 
+        if ( !key.length || $.inArray( key, self.options.blacklist ) > -1 ) {
           self.element.selectmenu('index', defval);
           self._set_value();
-          return; 
+          return;
         }
 
         if ( list.find('.'+self.widgetName+'-item').length >= self.options.limit ) {
@@ -97,14 +99,14 @@
         self._set_value();
       });
     }, // _init
-    
-    
+
+
     _makeBubbleWithData : function( data ) {
-    
+
       this._make_bubble(data.n)
           .appendTo( this._list.removeClass( this.widgetName+'-empty' ) )
           .data('value', data);
-    
+
     }, // _makeBubbleWithData
 
     _value : '',
@@ -118,7 +120,7 @@
     value : function() {
       return this._value;
     }, // value
- 
+
     _remove_bubble : function(e) {
       var pos = $.inArray( e.data.parent.data('value').id, e.data.that.options.blacklist );
 
