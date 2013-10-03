@@ -1,12 +1,18 @@
-/*jslint sloppy:true */
+/*global $, jQuery, Spinner */
 (function(factory) {
   if (typeof require === 'function') {
-    require(['jquery', 'vendor/spin', 'Core', 'Fn' ], factory);
+    require(['jquery', 'vendor/spin'], factory);
   }
   else {
-    factory($, Spinner, $.Core);
+    factory($, Spinner);
   }
-}(function($, Spinner, Core ) {
+}(function($, Spinner) {
+  function uCWord(string) {
+    return string.replace(/\w/, function(letter) {
+      return letter.toLocaleUpperCase();
+    });
+  }
+
   $.widget("ui.usercheck", {
     widgetEventPrefix : "user",
     options : {
@@ -63,7 +69,7 @@
       this._bindCheck();
 
       // Put in the DOM elements we want
-      this._wrapped = this.options.include_label ? this.element.siblings('label').andSelf() : this.element;
+      this._wrapped = this.options.include_label ? this.element.siblings('label').addBack() : this.element;
       this._wrapper = this._wrapped.wrapAll(wrapper).parent();
       this.element.before(prefix).after(icon);
 
@@ -89,7 +95,7 @@
           // Clear icon classes
           self._icon.removeClass( self.options.icon_invalid_classes.concat( self.options.icon_valid_classes ).join(' ') );
 
-          if ( !this.value ) { 
+          if ( !this.value ) {
             self._spinner.stop();
             self._trigger( 'valid', null, null );
             return;
@@ -98,7 +104,7 @@
           // Throttled check
           self._timeout = setTimeout(function() {
 
-            if ( !self.options.url ) { 
+            if ( !self.options.url ) {
               $.error( self.widgetName + ": No URL given" );
             }
 
@@ -107,7 +113,7 @@
               data = input.value;
             }
             else {
-              data = {}; 
+              data = {};
               data[ self.options.data_prop ] = input.value;
             }
 
@@ -162,12 +168,12 @@
             case "top":
             case "bottom":
               element_dir = 'height';
-              prefix_dir = 'padding'+Core.uCWord(this.options.prefix_pad);
+              prefix_dir = 'padding'+uCWord(this.options.prefix_pad);
               break;
             case "left":
             case "right":
               element_dir = 'width';
-              prefix_dir = 'padding'+Core.uCWord(this.options.prefix_pad);
+              prefix_dir = 'padding'+uCWord(this.options.prefix_pad);
               break;
             default:
               return;
@@ -177,7 +183,7 @@
         // padding calculations
         element_width = this.element[element_dir]();
         element_pad = parseInt(this.element.css(prefix_dir), 10);
-        prefix_width = this._prefix['outer'+Core.uCWord(element_dir)]();
+        prefix_width = this._prefix['outer'+uCWord(element_dir)]();
 
         // payload
         this._wrapped.css( prefix_dir, element_pad + prefix_width );
