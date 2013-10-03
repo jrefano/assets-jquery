@@ -1,6 +1,6 @@
 /*jslint sloppy:true */
 /**********
-  MODIFIED BY BEHANCE FOR SCROLL / RESIZE 
+  MODIFIED BY BEHANCE FOR SCROLL / RESIZE
  *************/
 
 /*
@@ -48,7 +48,7 @@
       // define safe mouseup for future toggling
       this._safemouseup = true;
       this.isOpen = false;
-      
+
       // create menu button wrapper
       this.newelement = $( '<a />', {
         'class': this.widgetFullName + ' ui-widget ui-state-default ui-corner-all',
@@ -288,7 +288,7 @@
         selectOptionData.push({
           value: opt.attr('value'),
           text: self._formatText(opt.text(), opt),
-          selected: opt.attr('selected'),
+          selected: opt.prop('selected'),
           disabled: opt.attr('disabled'),
           classes: opt.attr('class'),
           typeahead: opt.attr('typeahead'),
