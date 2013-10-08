@@ -21,7 +21,8 @@
 
       this._on(this.element, {
         mouseup: this.check,
-        keyup: this.check
+        keyup: this.check,
+        blur: this._clear
       });
     },
 
@@ -40,12 +41,19 @@
       // Starting at the character after the @
       start = orig.indexOf('@', this._mention.start) + 1;
 
+      term = orig.substring(0, start) + term;
+      if (orig.charAt(this._mention.end) !== ' ') { term += ' '; }
+      term += orig.substring(this._mention.end);
+
       // Set the full value, which swaps out the substring
-      this._super(orig.substring(0, start) + term + ' ' +
-                  orig.substring(this._mention.end));
+      this._super(term);
     },
 
-    check: function check(event) {
+    _clear: function() {
+      this._last = null;
+    },
+
+    check: function(event) {
       if (!this.element.is(document.activeElement)) { return; }
 
       var value = document.activeElement.value,
@@ -69,8 +77,8 @@
         this._mention.value = word || "";
         this._mention.start = start;
         this._mention.end = end;
-        this._searchTimeout(event);
-        this._trigger("mention", null, word);
+        this.search(null, event);
+        this._trigger("value", event, word);
       }
       this._last = word;
     }
