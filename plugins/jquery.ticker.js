@@ -19,10 +19,9 @@
 (function ( $ ) {
 
   $.fn.ticker = function( userParams ) {
-    
-    $(this).each(function( index, el ) {
-      
-      var $ticker           = $(el),                      // the initial jQuery object chosen to scroll
+  
+    var init = function() {
+      var $ticker           = $(this),                      // the initial jQuery object chosen to scroll
           cur_overflow      = $ticker.css('overflow'),    // what the initial overflow value of the element was
           ticker_width      = $ticker.width(),            // the width of the element containing everything (will be applied to $t_container)
           children_width    = 10,                         // width of all children combined (start at 10 to cover minor browser differences)
@@ -96,7 +95,11 @@
       $t_scroll_div.css( { 'width':children_width+'px' } );
       
       $ticker.parent().hover( mouseover, mouseout );
+      $ticker.unbind( 'mouseover', init );
+    };
     
+    $(this).each(function( index, el ) {
+      $(el).bind( 'mouseover', init );
     });
     
     return this;
