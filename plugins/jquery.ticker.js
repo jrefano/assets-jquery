@@ -95,11 +95,10 @@
       $t_scroll_div.css( { 'width':children_width+'px' } );
       
       $ticker.parent().hover( mouseover, mouseout );
-      $ticker.unbind( 'mouseover', init );
     };
     
     $(this).each(function( index, el ) {
-      $(el).bind( 'mouseover', init );
+      $(el).one( 'mouseover', init );
     });
     
     return this;
