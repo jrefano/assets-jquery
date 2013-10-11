@@ -39,7 +39,7 @@
       fields   : ['.dirty-form-html'],
       nots     : ['.dirty-form-ignore'],
       css_rule : [],
-      event    : 'focus'
+      event    : 'onLoad'
 
     },
 
