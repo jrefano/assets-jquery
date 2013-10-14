@@ -15,7 +15,7 @@
 
   var _usernameMatch = /(?:^|[^\w])@(\w+)/;
 
-  return $.widget("be.automention", $.be.autosuggest, {
+  $.widget("be.automention", $.be.autosuggest, {
     _create: function() {
       this._super();
 
@@ -24,6 +24,8 @@
         keyup: this.check,
         blur: this._clear
       });
+
+      this.menu.element.addClass("mention-menu");
     },
 
     _mention: {
@@ -83,4 +85,10 @@
       this._last = word;
     }
   });
+
+  $.extend($.be.automention, {
+    usernameMatch : _usernameMatch
+  });
+
+  return $.be.automention;
 }));
