@@ -49,6 +49,7 @@
 
       // Set the full value, which swaps out the substring
       this._super(term);
+      this.element.trigger('input');
     },
 
     _clear: function() {
