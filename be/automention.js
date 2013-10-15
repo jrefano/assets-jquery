@@ -21,6 +21,7 @@
 
       this._on(this.element, {
         mouseup: this.check,
+        input: this.check,
         keyup: this.check,
         blur: this._clear
       });
