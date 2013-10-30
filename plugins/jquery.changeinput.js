@@ -42,7 +42,7 @@ $.fn.changeInput = function( option, state, options ) {
       // Elements permitted to have 'disabled' attribute.
       if ( $this.is('input:not([type=hidden]), button, textarea, select, optgroup, option, .form-button') ) {
 
-        startDisabled = this.disabled;
+        startDisabled = this.disabled || $this.attr('disabled');
         disabled      = false;
 
         // Update element properties.
