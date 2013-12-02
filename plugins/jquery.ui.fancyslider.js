@@ -1,4 +1,4 @@
-define( [ 'jquery', 'Core' ], function( $, Core ) {
+define(['jquery'], function($) {
 
   $.fn.fancyslider = function( options ) {
 
@@ -71,7 +71,7 @@ define( [ 'jquery', 'Core' ], function( $, Core ) {
         return;
       }
 
-      if ( !Core.isValidNumber( val ) ) {
+      if (+val || val === 0) {
         val = ( options.input === 'value' ) ? $slider.slider( 'value' ) : options.percent_default;
       }
 
@@ -184,8 +184,6 @@ define( [ 'jquery', 'Core' ], function( $, Core ) {
 
     } // getPercent
 
-
-
     this.slider( options )
     .on( 'slide', function(e, ui) {
 
@@ -209,4 +207,4 @@ define( [ 'jquery', 'Core' ], function( $, Core ) {
 
   }; // fancyslider
 
-}); // define
+});
