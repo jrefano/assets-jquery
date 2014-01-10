@@ -1,5 +1,9 @@
 (function( $, undefined ) {
 
+  function escapeRegEx( str ) {
+    return str.replace(/[\-\[\]{}()*+?.,\\\^$|#]/g, "\\$&");
+  } // escapeRegEx
+
   $.ui.bubblelist = {
 
     widgetEventPrefix: "bubble",
@@ -46,7 +50,7 @@
             try {
               data_src_type = $.ajax( value ).pipe(function(data) {
                 return data.json || data;
-              }); 
+              });
             }
             catch (parseErr) {}
           }
@@ -64,7 +68,7 @@
       },
       'delimiter' : function(key, value) {
         this._delimiter = new RegExp('['+
-            $.Core.escapeRegEx( $.isArray( value ) ? value.join('') : value.toString() ) +
+            escapeRegEx( $.isArray( value ) ? value.join('') : value.toString() ) +
             ']','g');
       },
       'defaultValues' : function(key, value) {
@@ -86,7 +90,7 @@
 
       if (!( $li instanceof $ )) {
         value = $li;
-        
+
         // TODO: Remove addClass without widgetName prefix with help of CSS upgrades
         $li = $('<li />').addClass( this.options.item_classes.join(' ') )
           .addClass( this.options.item_classes.concat(this.widgetName+'-item').join(' ') );
