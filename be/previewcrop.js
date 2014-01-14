@@ -384,7 +384,7 @@
 
           widget._coords = c;
 
-          widget._trigger( 'change', {}, { coords : c } );
+          widget._trigger( 'change', new $.Event(), { coords : c } );
 
         } // onchange
 
@@ -480,7 +480,7 @@
       // Hide uploader
       opts.$upload_el.hide();
 
-      this._trigger( 'initialized', {}, { cw : constrained_width, ch : constrained_height } );
+      this._trigger( 'initialized', new $.Event(), { cw : constrained_width, ch : constrained_height } );
 
     }, // _init
 
@@ -522,7 +522,7 @@
           widget.element.showMessages([{type:'error','message': 'Image failed to crop. Please try again later.'}]);
         }
 
-        widget._trigger( 'failure', null, json );
+        widget._trigger( 'failure', new $.Event(), json );
 
       } // failure
 
@@ -536,7 +536,7 @@
       // Guard against invalid crop
       if ( !params.h || !params.w ) {
 
-        this._trigger( "badcoords" );
+        this._trigger( "badcoords", new $.Event() );
         return;
 
       } // if ! coords
@@ -570,11 +570,12 @@
             widget.name       = json.name;
           }
 
-          widget._trigger( 'success', null, json );
+          if (!widget._trigger( 'success', new $.Event(), json )) {
+            return;
+          }
 
           // Show uploader again
           opts.$upload_el.show();
-
 
           // replace image preview with new image so it is not a shrunken version anymore
           widget.$img_preview = $('<img />');
@@ -599,7 +600,7 @@
           widget.original_preview = opts.$preview_el.html();
           widget._updated         = true;
 
-          widget._trigger( 'valid', null, json );
+          widget._trigger( 'valid', new $.Event(), json );
 
           buttons.show(widget.$btns_container);
 
