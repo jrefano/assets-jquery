@@ -160,12 +160,12 @@
       $active_element = $element;
     },
 
-    cancel : function() {
+    cancel : function(e) {
       Menu._setFromHex( this.opened_hex );
-      this.close();
+      this.close(e);
     }, // cancel
 
-    close : function() {
+    close : function(e) {
 
       // No need to close if it's already closed
       if ( !this.is_open ) {
@@ -185,6 +185,11 @@
       this.is_open = false;
 
       this._trigger( 'closed', {}, { hex : this.current_hex } );
+
+      // Stop bubbling so no other possible binds detect a click on body when closing menu
+      if ( e && e.stopPropagation ) {
+        e.stopPropagation();
+      }
 
     }, // close
 
