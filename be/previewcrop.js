@@ -2,7 +2,7 @@
 (function(factory) {
   'use strict';
   if (typeof define === 'function' && define.amd) {
-    define(['jquery', 'be/buttons' ], function() {
+    define(['jquery', 'be/buttons', 'jquery/plugins/jquery.Jcrop'], function() {
       var module = factory.apply(this, arguments);
       return module;
     });

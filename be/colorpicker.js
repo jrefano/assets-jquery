@@ -95,6 +95,20 @@
 
     }, // _init
 
+    clonePosition: function($moving, $source, options) {
+      options = $.extend({
+        offsetLeft: 0,
+        offsetTop: 0,
+      }, options);
+
+      var offset = $source.offset();
+
+      return $moving.css({
+        left: offset.left + options.offsetLeft + 'px',
+        top: offset.top + options.offsetTop + 'px'
+      });
+    },
+
     open : function( e ) {
 
       // Set "global" variable so Menu knows which element it's dealing with
@@ -105,18 +119,16 @@
           doc_height  = $(document).height(),
           menu_offset;
 
-        Menu.open();
+      Menu.open();
 
       this._trigger( 'open' );
 
       // Position menu in relation to picker
       if ( !setPos  ) {
 
-        $menu.clonePosition( this.options.$position_element || this.element, {
-          setWidth   : false,
-          setHeight  : false,
-          offsetLeft : element_width+15,
-          offsetTop  : Math.round( menu_height / 2 ) * -1
+        this.clonePosition($menu, this.options.$position_element || this.element, {
+          offsetLeft: element_width + 15,
+          offsetTop: Math.round(menu_height / 2) * -1
         });
 
         // Now that menu is positioned, check that it's not off the page
