@@ -21,7 +21,7 @@ define(['jquery', 'jquery/plugins/jquery.ui.selectmenu'], function($) {
         params = {
           style     : 'dropdown',
           maxHeight : 200,
-          menuWidth : ( $select.outerWidth() > option_width ) ? $select.outerWidth() : option_width
+          menuWidth : $select.outerWidth()
         };
 
         // Position a dropdown rightaligned to the select
