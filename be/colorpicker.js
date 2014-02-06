@@ -18,12 +18,12 @@
   'use strict';
 
   var CLOSE_EVT = 'mousedown',
-      Menu, $active_element, $menu, menu_height, menu_width, $palette, palette_height,
+      Menu, $active_element, active_instance, $menu, menu_height, menu_width, $palette, palette_height,
       palette_width, $input, $r, $g, $b, $selector, $hue, $original_swatch,
       $current_swatch, element_width, $cancel_btn, $save_btn, $body,
       $spot, $spots, $add_color, $saved_colors;
 
-  $.widget( "ui.colorpicker", $.extend({}, {
+  $.widget( "be.colorpicker", $.extend({}, {
 
     options : {
       template            : null,
@@ -113,6 +113,7 @@
 
       // Set "global" variable so Menu knows which element it's dealing with
       $active_element = this.element;
+      active_instance = this;
 
       var setPos      = this.options.set_position,
           doc_width   = $(document).width(),
@@ -511,10 +512,8 @@
 
     open : function() {
 
-      var widget = $active_element.data( 'uiColorpicker' );
-
-      $save_btn.on( 'click', widget.close );
-      $cancel_btn.on( 'click', widget.cancel );
+      $save_btn.on( 'click', active_instance.close );
+      $cancel_btn.on( 'click', active_instance.cancel );
 
       $menu.show();
 
@@ -522,10 +521,8 @@
 
     close : function() {
 
-      var widget = $active_element.data( 'uiColorpicker' );
-
-      $save_btn.off( 'click', widget.close );
-      $cancel_btn.off( 'click', widget.cancel );
+      $save_btn.off( 'click', active_instance.close );
+      $cancel_btn.off( 'click', active_instance.cancel );
 
       $menu.hide();
 
@@ -649,8 +646,6 @@
     // Updates inputs, background, and current hex values
     _updateAllValues : function( hex, rgb ) {
 
-      var widget = $active_element.data( 'uiColorpicker' );
-
       if ( !rgb ) {
         rgb = Colors.hex2rgb( hex );
       }
@@ -661,15 +656,14 @@
       $b[0].value                              = rgb[2];
       $input[0].value                          = hex;
       $current_swatch[0].style.backgroundColor = '#'+hex;
-      widget.current_hex                       = hex;
+      active_instance.current_hex              = hex;
 
     }, // _updateAllValues
 
     _updateFromHue : function( hue_value ) {
 
       // figure out where selector is in palette
-      var widget          = $active_element.data( 'uiColorpicker' ),
-          selector_left   = parseInt( $selector[0].style.left, 10 ),
+      var selector_left   = parseInt( $selector[0].style.left, 10 ),
           selector_top    = parseInt( $selector[0].style.top, 10 ),
           left_percentage = selector_left / palette_width,
           top_percentage  = ( palette_height - selector_top ) / palette_height,
@@ -692,7 +686,7 @@
 
       };
 
-      widget._trigger( 'newhsv', {}, {
+      active_instance._trigger( 'newhsv', {}, {
         hsv             : hsv,
         left_percentage : left_percentage,
         top_percentage  : top_percentage
@@ -710,7 +704,7 @@
         this._updateAllValues( hex, rgb );
       }
 
-      widget._trigger( 'update', {}, { hex : hex } );
+      active_instance._trigger( 'update', {}, { hex : hex } );
 
     } // _updateFromHue
 
