@@ -2,7 +2,7 @@
 (function(factory) {
   'use strict';
   if (typeof define === 'function' && define.amd) {
-    define(['jquery', 'be/buttons', 'jquery/plugins/jquery.Jcrop'], function() {
+    define(['jquery', 'lib/showMessages', 'be/buttons', 'jquery/plugins/jquery.Jcrop'], function() {
       var module = factory.apply(this, arguments);
       return module;
     });
@@ -10,7 +10,7 @@
   else {
     return jQuery && factory.call(this, jQuery);
   }
-}(function($, buttons) {
+}(function($, showMessages, buttons) {
   'use strict';
 
 
@@ -516,10 +516,10 @@
         widget.$cancel_btn.show();
 
         if ( json && json.messages ) {
-          widget.element.showMessages( json.messages );
+          showMessages(widget.element, json.messages );
         }
         else {
-          widget.element.showMessages([{type:'error','message': 'Image failed to crop. Please try again later.'}]);
+          showMessages(widget.element, [{type:'error','message': 'Image failed to crop. Please try again later.'}]);
         }
 
         widget._trigger( 'failure', new $.Event(), json );
