@@ -1,8 +1,8 @@
-// =====================================================================
-// = ALERT! ============================================================
-// = This plugin has been modified from its original source (line 27). =
-// = This plugin has been extended to support off-DOM rendering.       =
-// =====================================================================
+// ============================================================================
+// = ALERT! ===================================================================
+// = This plugin has been modified from its original source (line 27, 17-19). =
+// = This plugin has been extended to support off-DOM rendering.              =
+// ============================================================================
 
 /*--------------------------------------------------------------------
  * jQuery plugin: customInput()
@@ -14,6 +14,10 @@
 --------------------------------------------------------------------*/
 (function($){
 
+function escapedInputName($input) {
+  return $input.attr('name').replace(/([\[\]])/g, '\\$1');
+}
+
 $.fn.customInput = function(options) {
   options = $.extend( {
     container : $(document.body)
@@ -21,12 +25,12 @@ $.fn.customInput = function(options) {
 
   $(this).each(function() {
     if ( $(this).is('[type=checkbox],[type=radio]') && $(this).parent( '.custom-' + $(this).attr('type') ).length === 0 ) {
-      
+
       var input = $(this);
 
       // get the associated label using the input's id
       var label = options.container.find('label[for='+input.attr('id')+']');
-      
+
       // Don't make items disappear because a label is missing
       if (!label.length) {
         return;
@@ -39,41 +43,41 @@ $.fn.customInput = function(options) {
       $('<div class="custom-'+ inputType +'"></div>').insertBefore(input).append(input, label);
 
       // find all inputs in this set using the shared name attribute
-      var allInputs = options.container.find('input[name='+input.attr('name')+']');
-      
+      var allInputs = options.container.find('input[name='+ escapedInputName( input ) +']');
+
       var $as = label.find('a[target=_blank]');
-      
+
       $as.each( function() {
-      
+
         var href= this.href;
-        
+
         $(this).bind('click', function(e) {
-          e.stopPropagation(); 
+          e.stopPropagation();
           e.preventDefault();
           window.open( href, '_blank' );
           return false;
-          
+
         });
-        
+
         this.href = '#';
         this.removeAttribute('target');
-        
+
       });
 
       // necessary for browsers that don't support the :hover pseudo class on labels
       label.hover(
         function() {
           $(this).addClass('hover');
-          
+
           if (inputType == 'checkbox') {
             input.trigger('customOver');
           }
           else {
-            options.container.find('[name=' + input.attr('name') + ']').each(function() {
+            options.container.find('[name=' + escapedInputName( input ) + ']').each(function() {
               $(this).trigger('customOverName');
             });
           }
-          
+
           if ( inputType == 'checkbox' && input.is(':checked') ) {
             $(this).addClass('checkedHover');
           }
@@ -84,7 +88,7 @@ $.fn.customInput = function(options) {
             input.trigger('customOut');
           }
           else {
-            options.container.find('[name=' + input.attr('name') + ']').each(function() {
+            options.container.find('[name=' + escapedInputName( input ) + ']').each(function() {
               $(this).trigger('customOutName');
             });
           }
@@ -93,9 +97,9 @@ $.fn.customInput = function(options) {
 
       // bind custom event;, trigger it; bind click, focus, blur events
       input.bind('updateState', function() {
-      
-        allInputs = options.container.find('input[name='+input.attr('name')+']');
-        
+
+        allInputs = options.container.find('input[name='+escapedInputName( input ) +']');
+
         if ( input.is(':checked') ) {
           if ( input.is(':radio') ) {
             allInputs.each(function() {
@@ -109,7 +113,7 @@ $.fn.customInput = function(options) {
         }
       })
       .bind('updateState disable enable', function( e ) {
-      
+
         // changeinput plugin triggers 'disable' before actually disabling
         if ( input.is(':disabled') || ( e && e.type === 'disable' ) ) {
           label.addClass('disabled');
