@@ -28,6 +28,7 @@
     options: {
       popup: {
         title: 'Creative Fields',
+        classes: ['all-creative-fields-pop'],
         html: '<ul id="all-data-list" class="ui-selectmenu-open" />',
         buttons: [{
           label: "Done",
@@ -109,7 +110,7 @@
 
       var self        = this,
           modal       = this.modal = simple(this.options.popup),
-          $popup      = this.$popup = this.modal._view.$view.filter('.popup').addClass('all-creative-fields-pop'),
+          $popup      = this.$popup = this.modal._view.$view.filter('.popup'),
           $popuplist  = $popup.find('#all-data-list'),
           preselected = this._list.find('li').map(function(){ return $(this).data('value').id; }).get(),
 
