@@ -15,7 +15,7 @@
 (function($){
 
 function escapedInputName($input) {
-  return $input.attr('name').replace(/([\[\]])/g, '\\$1');
+  return String($input.attr('name')).replace(/([\[\]])/g, '\\$1');
 }
 
 $.fn.customInput = function(options) {
