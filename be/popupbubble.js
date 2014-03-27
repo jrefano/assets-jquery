@@ -29,7 +29,7 @@
       popup: {
         title: 'Creative Fields',
         classes: ['all-creative-fields-pop'],
-        html: '<ul id="all-data-list" class="ui-selectmenu-open" />',
+        html: '<p>Select the fields that describe your work</p><ul id="all-data-list" class="ui-selectmenu-open" />',
         buttons: [{
           label: "Done",
           classes: ['form-button-default', 'js-confirm']
