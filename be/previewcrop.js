@@ -197,7 +197,7 @@ define([
           };
 
       // Add containers for image manip and buttons
-      this.element.append(this.$img_container);
+      this.element.html(this.$img_container);
 
       // Append required buttons
       $.each(btns, function(show, key) {
