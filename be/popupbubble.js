@@ -74,23 +74,25 @@
       this._set_value();
 
       if (this.options.defaultValues.length) {
-        list.removeClass(this.widgetName+'-empty');
+        list.removeClass(this.widgetName + '-empty');
       }
       else {
-        list.addClass(this.widgetName+'-empty');
+        list.addClass(this.widgetName + '-empty');
       }
 
-      this.element.siblings('.form-label').on('click', function(){
+      this.element.siblings('.form-label').on('click', function() {
         list.focus();
         return false;
       });
 
-      list.addClass(this.options.list_classes.join(' '))
-        .on('focus', function(e) {
-          if ($(this).hasClass(self.widgetName+'-empty')) {
-            self._popup.apply(self, arguments);
-          }
-        });
+      list
+      .attr('placeholder', this.element.attr('placeholder'))
+      .addClass(this.options.list_classes.join(' '))
+      .on('focus', function(e) {
+        if ($(this).hasClass(self.widgetName + '-empty')) {
+          self._popup.apply(self, arguments);
+        }
+      });
 
       // set up the button
       button.on('click', $.proxy(this._popup, this))
@@ -112,10 +114,10 @@
           modal       = this.modal = simple(this.options.popup),
           $popup      = this.$popup = this.modal._view.$view.filter('.popup'),
           $popuplist  = $popup.find('#all-data-list'),
-          preselected = this._list.find('li').map(function(){ return $(this).data('value').id; }).get(),
+          preselected = this._list.find('li').map(function() { return $(this).data('value').id; }).get(),
 
       getItems = function() {
-        return $popuplist.find('.selected').map(function(){return $(this).data('value');}).get();
+        return $popuplist.find('.selected').map(function() { return $(this).data('value'); }).get();
       },
 
       toggleItem = function(e) {
@@ -124,7 +126,7 @@
         if (!$this.hasClass('selected') && getItems().length >= self.options.limit) {
             showMessages($popup, [{
               type: 'error',
-              message: 'You can only select up to '+self.options.limit+' items.'
+              message: 'You can only select up to ' + self.options.limit + ' items.'
             }],
             { fade: false });
         }
@@ -150,7 +152,7 @@
 
           $('<li' +
             (selected ? ' class="active selected"': '') +
-            ' tabindex="-1">'+this.n+'<span class="icon icon-status-success sprite-site-elements"></span></li>')
+            ' tabindex="-1">' + this.n + '<span class="icon icon-status-success sprite-site-elements"></span></li>')
           .data('value', this)
           .on('click', this, function(e) {
             $(document.activeElement).blur();
@@ -163,24 +165,19 @@
       });
 
       // On done
-      modal.confirm = function() {
-        if ($(this).hasClass('disabled')) {
-          return;
-        }
-
-        self._list.addClass(self.widgetName+'-empty').children().remove('li');
+      modal.then(function() {
+        self._list.addClass(self.widgetName + '-empty').children().remove('li');
 
         $.each(getItems(), function() {
           if ($.inArray(this.n, self.options.blacklist) > -1) { return; }
           self._make_bubble(this.n).data('value', this)
             .addClass(self.options.item_classes.join(' '))
-            .appendTo(self._list.removeClass(self.widgetName+'-empty'));
+            .appendTo(self._list.removeClass(self.widgetName + '-empty'));
         });
 
         self._set_value();
         self._list.focus();
-        modal.resolve();
-      };
+      });
 
       $popuplist.attr('tabIndex', 0);
       $popup.find('.js-confirm').attr('tabIndex', 1);
@@ -198,7 +195,7 @@
 
     _set_value: function() {
       var combined = this._list.find('li')
-        .map(function(){ return $(this).data('value').id; }).get().join('|');
+        .map(function() { return $(this).data('value').id; }).get().join('|');
       this._trigger('value', null, combined);
       this.element.val(combined);
     },
@@ -218,12 +215,12 @@
 
     _key_commands: function($popup, $popuplist, toggleItem) {
       var keybindings = {
-        escape: function () { $('#popup-cancel').click(); },
-        tab: function (e) {
+        escape: function() { $('#popup-cancel').click(); },
+        tab: function(e) {
           $('[tabindex=' + (document.activeElement.tabIndex + 1) % 3 + ']', $popup).focus();
           e.preventDefault();
         },
-        up: function (e) {
+        up: function(e) {
           var $focus = $(document.activeElement);
           if ($focus.attr('id') === 'all-data-list') {
             $popuplist.children().first().focus();
@@ -234,7 +231,7 @@
 
           e.preventDefault();
         },
-        down: function (e) {
+        down: function(e) {
           var $focus = $(document.activeElement);
           if ($focus.attr('id') === 'all-data-list') {
             $popuplist.children().first().focus();
@@ -245,7 +242,7 @@
 
           e.preventDefault();
         },
-        enter: function (e) {
+        enter: function(e) {
           var $focus = $(document.activeElement);
           if ($focus.hasClass('form-button')) {
             $(document.activeElement).click();
@@ -261,7 +258,7 @@
       function onCharKey(char) {
         var beginKey = new RegExp(char, 'i');
         return function(e) {
-          $popuplist.children().filter(function () {
+          $popuplist.children().filter(function() {
             return beginKey.test(this.textContent);
           }).first().focus();
 
@@ -269,7 +266,7 @@
         };
       }
 
-      ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'].forEach(function (el) {
+      ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'].forEach(function(el) {
         keybindings[el] = onCharKey(el);
       });
 
