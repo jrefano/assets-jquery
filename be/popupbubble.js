@@ -111,13 +111,21 @@
       if (this.modal) { return; }
 
       var self        = this,
-          modal       = this.modal = simple(this.options.popup),
+          modal       = this.modal = simple(this.options.popup, function() {
+            return getItems()
+            .map(function(el) {
+              return $(el).data('value');
+            })
+            .filter(function(value) {
+              return self.options.blacklist.indexOf(value.n) === -1;
+            });
+          }),
           $popup      = this.$popup = this.modal._view.$view.filter('.popup'),
           $popuplist  = $popup.find('#all-data-list'),
           preselected = this._list.find('li').map(function() { return $(this).data('value').id; }).get(),
 
       getItems = function() {
-        return $popuplist.find('.selected').map(function() { return $(this).data('value'); }).get();
+        return $popuplist.find('.selected').toArray();
       },
 
       toggleItem = function(e) {
@@ -165,19 +173,19 @@
       });
 
       // On done
-      modal.then(function() {
+      modal.then(function(items) {
         self._list.addClass(self.widgetName + '-empty').children().remove('li');
 
-        $.each(getItems(), function() {
-          if ($.inArray(this.n, self.options.blacklist) > -1) { return; }
-          self._make_bubble(this.n).data('value', this)
-            .addClass(self.options.item_classes.join(' '))
-            .appendTo(self._list.removeClass(self.widgetName + '-empty'));
+        items.forEach(function(value) {
+          self._make_bubble(value.n).data('value', value)
+          .addClass(self.options.item_classes.join(' '))
+          .appendTo(self._list.removeClass(self.widgetName + '-empty'));
         });
 
         self._set_value();
         self._list.focus();
-      });
+      })
+      .then(destroy, destroy);
 
       $popuplist.attr('tabIndex', 0);
       $popup.find('.js-confirm').attr('tabIndex', 1);
@@ -186,8 +194,6 @@
       $('#all-data-list').focus();
 
       keyboard.on(self._key_commands($popup, $popuplist, toggleItem));
-
-      self.modal.then(destroy, destroy);
 
       self._trigger('popup');
       return false;
