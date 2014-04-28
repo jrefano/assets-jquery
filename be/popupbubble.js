@@ -88,6 +88,7 @@
       list
       .attr('placeholder', this.element.attr('placeholder'))
       .addClass(this.options.list_classes.join(' '))
+      .on('click', function() { this.focus(); })
       .on('focus', function(e) {
         if ($(this).hasClass(self.widgetName + '-empty')) {
           self._popup.apply(self, arguments);
