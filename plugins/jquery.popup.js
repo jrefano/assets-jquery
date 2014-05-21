@@ -6,7 +6,7 @@
         _shim,          // object of iframe
         _self   = this, // object of div where contents are displayed
         input   = '<div>Loading...</div>',
-        _body   = Config.$body || $('body'),
+        _body   = $(document.body) || $('body'),
         _window = $(window),
         _params = _self.data('params') || {
           removeAll       : true,               // call to clear prior popups

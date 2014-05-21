@@ -78,7 +78,7 @@
         $menuEl.hide();
 
         $this.removeClass('hovermenu-hover');
-        Config.$body.unbind('mousemove.'+$this[0].id, closeMenu);
+        $(document.body).unbind('mousemove.'+$this[0].id, closeMenu);
         $this.trigger('hovermenu.close', [ $menuEl ]);
       },
 
@@ -158,7 +158,7 @@
           setCoords();
         }
         
-        Config.$body.bind('mousemove.'+$this[0].id, closeMenu);
+        $(document.body).bind('mousemove.'+$this[0].id, closeMenu);
         $this.trigger('hovermenu.open', [ $menuEl ]);
         
       };

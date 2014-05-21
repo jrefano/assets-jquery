@@ -71,8 +71,8 @@
 
       // When there is a mouseup on the body of the document, close the dropdown
       // use mouseup since other plugins stop propogation of click
-      Config.$document.ready(function() {
-        Config.$body.bind('mouseup', thisObj, thisObj._checkClose);
+      $(document).ready(function() {
+        $(document.body).bind('mouseup', thisObj, thisObj._checkClose);
       });
 
 
@@ -133,7 +133,7 @@
         });
 
         // Handle closing of favorites list properly (all clicks that are not on the toggle, or a filter, should close any open favorites lists)
-        Config.$body.bind('click', function(e){
+        $(document.body).bind('click', function(e){
           var target = e.target;
 
           if ( $('.autocomplete_favorites_on').length > 0
