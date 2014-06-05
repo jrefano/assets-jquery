@@ -421,14 +421,7 @@
         this.newelement.add(this.list).addClass(transferClasses);
       }
 
-      // set menu width to either menuWidth option value, width option value, or select width
-      // Fallback should be newelement width
-      var elementWidth = this.newelement.width();
-      if ( o.style == 'dropdown' ) {
-        this.list.width( o.menuWidth || elementWidth );
-      } else {
-        this.list.width( o.menuWidth || elementWidth - o.handleWidth );
-      }
+      this._computeWidth();
 
       // reset height to auto
       this.list.css( 'height', 'auto' );
@@ -459,6 +452,19 @@
       this.refreshTimeout = window.setTimeout(function () {
         self._refreshPosition();
       }, 200);
+    },
+
+    _computeWidth: function() {
+      var o = this.options;
+
+      // set menu width to either menuWidth option value, width option value, or select width
+      // Fallback should be newelement width
+      var elementWidth = this.newelement.width();
+      if ( o.style === 'dropdown' ) {
+        this.list.width( o.menuWidth || elementWidth );
+      } else {
+        this.list.width( o.menuWidth || elementWidth - o.handleWidth );
+      }
     },
 
     destroy: function() {
@@ -586,6 +592,7 @@
         }
 
         self._refreshPosition();
+        self._computeWidth();
 
         var link = selected.find("a");
         if (link.length) link[0].focus();
