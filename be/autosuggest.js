@@ -40,17 +40,19 @@
       }
     },
 
+    _hasNoMatch: function(content) {
+      return this.options.noMatchTemplate && !this.options.hasMatch.call(this, content);
+    },
+
     __response: function(content) {
       // by default, an autocomplete will not show a menu if there is no content
       // however, if a noMatchtemplate is provided, no content still needs to
       // show that item, so force the showing of the menu
-      if (this.options.noMatchTemplate && (!content || !content.length)) {
-        if (!this.options.disabled && !this.cancelSearch) {
-          content = [];
-          this._trigger('response', null, { content: content });
-          this._suggest(content);
-          this._trigger('open');
-        }
+      if (this._hasNoMatch(content) && (!content || !content.length) && !this.options.disabled && !this.cancelSearch) {
+        content = [];
+        this._trigger('response', null, { content: content });
+        this._suggest(content);
+        this._trigger('open');
       }
       else {
         this._super(content);
@@ -59,7 +61,7 @@
 
     _suggest: function(items) {
       this._super(items);
-      if (this.options.noMatchTemplate && !this.options.hasMatch.call(this, items)) {
+      if (this._hasNoMatch(items)) {
         this._noMatch(items);
       }
     },
@@ -97,5 +99,4 @@
     }
 
   });
-
 }));
