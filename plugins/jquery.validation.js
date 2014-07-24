@@ -193,7 +193,7 @@
 
             callerLeftPosition = callerLeftPosition - widthDiff;
 
-            $arrow.css( 'left', $arrow.cssToInt( 'left' ) + widthDiff );
+            $arrow.css( 'left', parseInt( $arrow.css( 'left' ), 10 ) + widthDiff );
 
           } // if xend > windowwidth
 
@@ -202,7 +202,7 @@
 
             callerLeftPosition = callerLeftPosition - WINDOW_BUFFER;
 
-            $arrow.css( 'left', $arrow.cssToInt( 'left' ) + WINDOW_BUFFER );
+            $arrow.css( 'left', parseInt( $arrow.css( 'left' ), 10 ) + WINDOW_BUFFER );
 
           }
 
@@ -355,10 +355,10 @@
     } // removeAllErrors
 
   });
-  
+
   $.validation = $.validation || {};
   $.extend( $.validation, {
-    
+
     rules : {
 
       "Generic":{
@@ -516,26 +516,26 @@
       }
 
     },
-  
+
     buildPrompt : function( $form, $input, error_text ) {
       return $form.data( 'validation' ).buildPrompt( $input, error_text );
     }, // buildPrompt
 
     handleResponse : function( $form, params ) {
-    
+
       var scroll_destination, validation = $form.data( 'validation' ),
           $message_container = params.$message_container || $form;
 
       // If JSON came back
       if ( params.data ) {
-      
+
         // If there are messages to show
         if ( params.data.messages && typeof $.fn.showMessages === 'function' ) {
-        
+
           $message_container.showMessages( params.data.messages, params.message_params );
-          
+
         } // if data.messages
-      
+
         // If there are errors, show prompts
         if ( params.data.errors ) {
 
@@ -549,31 +549,31 @@
             }
 
           });
-          
+
           if ( validation.settings.scrolling ) {
-          
+
             scroll_destination = $('.formError').first().offset().top - 200;
-            
+
             $.Core.scrollElement().animate({ scrollTop: scroll_destination}, 1100);
-          
+
           }
 
         } // if data.errors
-        
+
         // Looks for destination, redirect
         if ( typeof params.data.destination !== 'undefined' && params.data.destination ) {
           $form.trigger( 'validation.redirecting', [ params.data ] );
           window.location.href = params.data.destination;
           return false;
         }
-        
+
         if ( validation.settings.ajaxSuccessValidCheck( params.data ) ) {
 
           $form.trigger( 'validation.success', [ params.data ] );
           return true;
 
         } // ajaxSuccessValidCheck
-        
+
       } // if params.data
 
       $form.trigger( 'validation.failure', [ params.data ] );
@@ -595,11 +595,11 @@
       if ( typeof $input.data( 'selectmenu' ) === 'object' ) {
         $input = $input.selectmenu('getNewElement');
       }
-      
+
       if ( typeof $input.data( 'autocomplete' ) === 'object' ) {
         $input = $input.autocomplete('field');
       }
-      
+
       if ( ! $input.is(':visible') || $input.css('visibility') === 'hidden' || $input.parent().hasClass('custom-checkbox') || $input.parent().hasClass('custom-radio') ) {
         $input = $input.parent().closest(':visible');
       }
@@ -610,16 +610,16 @@
 
     // checks input based on settings
     check : function( $input, validate ) {
-    
+
       var rulesParsing = $input.attr('class'),
           rulesRegExp  = /validate\[(.*)\]/,
           getRules     = rulesRegExp.exec(rulesParsing),
           str, pattern, result;
-          
+
       if ( !getRules ) {
         $.Core.exception( "No rules for ", rulesParsing, $input );
       }
-          
+
       str          = getRules[1];
       pattern      = /\W+/; // this has to do with extra rules in matching...
       result       = str.split(pattern);
@@ -694,7 +694,7 @@
             } // if tagName = select
 
             if ( $input.hasClass('autocomplete') ) {
-            
+
               if ( $input.autocomplete('delimited') ) {
                 return true;
               }
@@ -717,7 +717,7 @@
             if ( !obj || typeof obj !== 'object' ) {
               return;
             }
-            
+
             if ( $input.hasClass('autocomplete') ) {
               value = $input.autocomplete('delimited');
             }
@@ -742,13 +742,13 @@
           }, // _defaultRegex
 
           _confirm = function() {
-          
+
             var confirm_field_id = rules[ inc+1 ],
                 $label           = $('label[for=' + confirm_field_id + ']'),
                 msg              = ( $label.length ) ?
                                    'The ' + $label.text().toLowerCase() + 's you entered do not match' :
                                    $.validation.rules.confirm.alertText;
-                                   
+
             if( $input.val() !== $("#"+confirm_field_id).val() ) {
               error        = true;
               prompt_text += '<li>' + msg + '</li>';
@@ -780,11 +780,11 @@
               prompt_text += '<li>' + $.validation.rules.minCheckbox.alertText + '</li>';
             }
           }; // _minCheckbox
-          
+
       if ( default_val === $input.val() ) {
         $input.val('');
       }
-      
+
       for ( inc; inc < rules.length; ++inc ) {
 
         rule = rules[ inc ];
@@ -831,9 +831,9 @@
       } // for inc
 
       if ( error === true ) {
-      
+
         $input.trigger( 'validation.inputfailure', [ prompt_text ] );
-        
+
 
         // only show error if through form submission, not on blur
         if ( validate === 1 ) {
@@ -855,7 +855,7 @@
         $.validation.closePrompt( $input );
 
       }
-      
+
       if ( default_val && $input.val() === '' ) {
         $input.val( default_val );
       }
@@ -869,7 +869,7 @@
 
       // TODO: see if this is actually needed, it should always be jqueryified by now
       $input = $($input);
-      
+
       if ( $input.hasClass( 'autocomplete' ) ) {
         $input = $input.autocomplete( 'field' );
       }
@@ -877,7 +877,7 @@
       var input_type = $input.prop( 'type' ),
           class_attr = ( input_type === "radio" || input_type === "checkbox" ) ? 'name' : 'id',
           $formError = $(".formError."+ $input.attr( class_attr ) );
-          
+
       $formError.fadeTo("fast",0,function(){
         $formError.remove();
       });
@@ -905,7 +905,7 @@
       if( stopForm ) {
 
         if ( scrolling ) {
-        
+
           $destination_el = $(".formError").first();
 
           if ( $destination_el.length  ) {
