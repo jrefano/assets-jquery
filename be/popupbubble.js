@@ -8,10 +8,10 @@
   if (typeof define === 'function' && define.amd) {
     define([
       'jquery',
-      'lib/keyboard',
+      'vendor/lib/keyboard',
       'jquery/be/bubblelist',
       'be/modal/simple',
-      'lib/showMessages',
+      'vendor/lib/showMessages',
       'jquery/ui/widget'
     ], function() {
       var module = factory.apply(this, arguments);

@@ -2,7 +2,7 @@
 // that actually natively understands shese dependencies
 define([
   'jquery',
-  'lib/showMessages',
+  'vendor/lib/showMessages',
   'be/buttons',
   'jquery/ui/widget',
   'jquery/plugins/jquery.Jcrop',
