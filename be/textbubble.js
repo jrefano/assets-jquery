@@ -34,14 +34,16 @@
         blacklist            : [],
         list_classes         : [],
         ignore_blur_override : false,
-        limit                : 0
+        limit                : 0,
+        valueSeparator: ',',
+        grow: false
 
     },
 
     keycodes : {},
 
     _id            : '',
-    $_hidden_width : false,
+    _$hiddenWidth : false,
     $_list         : false,
 
     _init : function() {
@@ -53,9 +55,10 @@
        this.keycodes[ $.ui.keyCode.COLON ]     = ':';
        this.keycodes[ $.ui.keyCode.SEMICOLON ] = ';';
 
-      this._id            = this.element.attr('id');
-      this.$_hidden_width = $('<div id="' + this._id + '-hidden" class="ui-textboxlist-hidden-width" />');
-      this.$_list         = $('<div id="' + this._id + '-list" class="ui-textboxlist" />');
+      this._id = this.element.attr('id');
+      this._$hiddenWidth = $('<div id="' + this._id + '-hidden" class="ui-textboxlist-hidden-width" />');
+      this.$_list = $('<div id="' + this._id + '-list" class="ui-textboxlist" />');
+      this.placeholder = this.element.attr('placeholder');
 
       this.$_list.addClass( this.options.list_classes.join(' ') )
       .on( 'focus blur', 'input', function( e ) {
@@ -64,6 +67,13 @@
 
       this.element.addClass('ui-textboxlist-hidden-text')
       .after( this.$_list );
+
+      if (this.options.grow) {
+        this.$_list.css({
+          minHeight: this.$_list.height(),
+          height: 'auto'
+        });
+      }
 
       this.options.display_classes = this.options.adtl_display_classes.concat('ui-textboxlist-selection-display', this.options.display_classes);
 
@@ -80,7 +90,7 @@
       this._update_hidden_text();
 
       this.$_list.addClass('ui-textboxlist');
-      this.element.after( this.$_hidden_width );
+      this.element.after( this._$hiddenWidth );
 
       if ( this.options.ignore_blur_override !== true ) {
 
@@ -291,6 +301,10 @@
 
       this._add_input( false );
 
+      if (this.placeholder) {
+        this.refresh();
+      }
+
       return this.$_list;
 
     }, // _init
@@ -404,6 +418,8 @@
 
       textboxlist._update_hidden_text();
 
+      textboxlist.refresh();
+
       e.stopPropagation();
 
       textboxlist.element.trigger( 'textboxlist.removedBit', [$parent] );
@@ -416,11 +432,23 @@
 
     _update_hidden : function( input ) {
 
-      this.$_hidden_width[0].innerHTML = input.value;
+      var hiddenWidth,
+          measureText = input.value,
+          hasValue = !!this.element.val();
 
-      var hidden_width = this.$_hidden_width.width() + this.options.char_buffer;
+      if (hasValue) {
+        $(input).removeAttr('placeholder');
+      }
+      else {
+        measureText =  this.placeholder;
+        $(input).attr('placeholder', this.placeholder);
+      }
 
-      input.style.width = ( hidden_width < 50 ) ? '50px' : hidden_width + 'px';
+      this._$hiddenWidth[0].innerHTML = measureText;
+
+      hiddenWidth = this._$hiddenWidth.width() + this.options.char_buffer;
+
+      input.style.width = (hiddenWidth < 50) ? '50px' : hiddenWidth + 'px';
 
     }, // _update_hidden
 
@@ -477,7 +505,7 @@
         vals[vals.length] = $(this).text();
       });
 
-      this.element.val( vals.join(',') );
+      this.element.val(vals.join(this.options.valueSeparator));
 
       this.element.trigger('textboxlist.change');
 
@@ -485,6 +513,10 @@
 
     list : function() {
       return this.$_list;
+    },
+
+    refresh: function() {
+      this._update_hidden(this.$_list.find('input')[0]);
     },
 
     addValue : function( value ) {
