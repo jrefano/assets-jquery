@@ -43,7 +43,7 @@
     keycodes : {},
 
     _id            : '',
-    $_hidden_width : false,
+    _$hiddenWidth : false,
     $_list         : false,
 
     _init : function() {
@@ -56,7 +56,7 @@
        this.keycodes[ $.ui.keyCode.SEMICOLON ] = ';';
 
       this._id = this.element.attr('id');
-      this.$_hidden_width = $('<div id="' + this._id + '-hidden" class="ui-textboxlist-hidden-width" />');
+      this._$hiddenWidth = $('<div id="' + this._id + '-hidden" class="ui-textboxlist-hidden-width" />');
       this.$_list = $('<div id="' + this._id + '-list" class="ui-textboxlist" />');
       this.placeholder = this.element.attr('placeholder');
 
@@ -90,7 +90,7 @@
       this._update_hidden_text();
 
       this.$_list.addClass('ui-textboxlist');
-      this.element.after( this.$_hidden_width );
+      this.element.after( this._$hiddenWidth );
 
       if ( this.options.ignore_blur_override !== true ) {
 
@@ -444,9 +444,9 @@
         $(input).attr('placeholder', this.placeholder);
       }
 
-      this.$_hidden_width[0].innerHTML = measureText;
+      this._$hiddenWidth[0].innerHTML = measureText;
 
-      hiddenWidth = this.$_hidden_width.width() + this.options.char_buffer;
+      hiddenWidth = this._$hiddenWidth.width() + this.options.char_buffer;
 
       input.style.width = (hiddenWidth < 50) ? '50px' : hiddenWidth + 'px';
 

@@ -4,6 +4,8 @@ define([
   'jquery/ui/widget',
   'jquery/plugins/jquery.ui.selectmenu'
 ], function($, bubblelist) {
+  'use strict';
+
   return $.widget("ui.selectbubble", $.extend(true, {}, bubblelist, {
 
     options: {
