@@ -36,7 +36,10 @@
           term: this.term,
           items: items
         }))
-        .appendTo(this.menu.element);
+        .appendTo(this.menu.element)
+        .on('mouseover', function() {
+          $(this).parent().find('.ui-state-focus').removeClass('ui-state-focus');
+        });
       }
     },
 
