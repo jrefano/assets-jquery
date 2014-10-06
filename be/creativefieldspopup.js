@@ -8,7 +8,7 @@ define([
 ], function($, bubblelist, simple, showMessages, fieldsTmpl) {
   'use strict';
 
-  return $.widget('ui.popupbubble', $.extend(true, {}, bubblelist, {
+  return $.widget('ui.creativefieldspopup', $.extend(true, {}, bubblelist, {
     _list: null,
 
     options: {
