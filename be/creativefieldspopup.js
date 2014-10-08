@@ -212,11 +212,15 @@ define([
     },
 
     _remove_bubble: function(e) {
+      var self = e.data.that;
+
+      // Parent of actual bubble
       e.data.parent.remove();
-      if (!e.data.that._list.find('.text').length) {
-        e.data.that._list.addClass(e.data.that.widgetName + '-empty');
+
+      if (!self._list.find('.text').length) {
+        self._list.addClass(self.widgetName + '-empty');
       }
-      e.data.that._set_value();
+      self._set_value();
       e.stopPropagation();
     },
 
