@@ -211,6 +211,19 @@ define([
       return false;
     },
 
+    _remove_bubble: function(e) {
+      var self = e.data.that;
+
+      // Parent of actual bubble
+      e.data.parent.remove();
+
+      if (!self._list.find('.text').length) {
+        self._list.addClass(self.widgetName + '-empty');
+      }
+      self._set_value();
+      e.stopPropagation();
+    },
+
     /**
      * @return {string}
      */
