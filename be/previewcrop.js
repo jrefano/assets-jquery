@@ -4,10 +4,11 @@ define([
   'jquery',
   'lib/showMessages',
   'be/buttons',
+  'be/xhr',
   'jquery/ui/widget',
   'jquery/plugins/jquery.Jcrop',
   'css!styles/jquery/jcrop.css'
-], function($, showMessages, buttons) {
+], function($, showMessages, buttons, xhr) {
   'use strict';
 
   var MODE_DATA = 'data',
@@ -530,13 +531,12 @@ define([
 
       buttons.hide(this.$btns_container, 'Cropping...');
 
-      $.ajax({
+      xhr({
         url: this.options.url,
         type: 'POST',
         data: params
       })
-      .fail(failure)
-      .done(function(json) {
+      .then(function(json) {
 
           var img_src;
 
@@ -596,7 +596,7 @@ define([
           widget.$recrop_btn.show();
           widget.$cancel_btn.hide();
 
-      }); // ajax
+      }, failure);
 
       return this.element;
 
