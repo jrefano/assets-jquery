@@ -291,7 +291,8 @@ define([
       // Set the CSS for both images on load
       original_css = {
         width: constrained_width,
-        height: constrained_height
+        height: constrained_height,
+        maxWidth: constrained_width
       };
 
       // setup preview image
