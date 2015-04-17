@@ -1,6 +1,69 @@
 /*global jQuery, Config */
 (function($) {
 
+  function escapeRegEx(str) {
+    return str.replace(/[\-\[\]{}()*+?.,\\\^$|#]/g, "\\$&");
+  }
+
+  $.fn.defaultValue = function(defaultValue) {
+    this.each(function() {
+      var $field = $(this),
+
+      getValue = function() {
+        return $field.val();
+      }, // getValue
+
+      setValue = function(val) {
+        $field.trigger('defaultvalue.beforevalueset');
+        $field.val(val);
+        $field.trigger('defaultvalue.aftervalueset');
+      }, // setValue
+
+      onFocus = function() {
+        if (getValue() === defaultValue) {
+          setValue('');
+          $field.removeClass('form-text-placeholder');
+        }
+      }, // onFocus
+
+      onBlur = function() {
+        if (!getValue()) {
+          setValue(defaultValue);
+          $field.addClass('form-text-placeholder');
+        }
+        else if (getValue() !== defaultValue) {
+          $field.removeClass('form-text-placeholder');
+        }
+      }; // onBlur
+
+      $.fn.defaultValue.destroy = function() {
+        setValue('');
+
+        $field.off({
+
+          focus: onFocus,
+          blur: onBlur
+
+        });
+
+        $field.removeData('defaultValue');
+      }; // destroy
+
+      $field.on({
+
+        focus: onFocus,
+        blur: onBlur
+
+      });
+
+      $field.data('defaultValue', defaultValue);
+
+      $field.trigger('blur');
+    });
+
+    return this;
+  }; // defaultValue
+
   $.widget('be.autocomplete', $.extend( true, {}, $.ui.coreext, $.ui.listselector, {
 
     options : {
@@ -317,7 +380,7 @@
         var ptn = [];
 
         $.each( term.split(''), function( i, val ) {
-          ptn.push( $.Core.escapeRegEx( val ) );
+          ptn.push( escapeRegEx( val ) );
         });
 
         ptn = ptn.join('\\w*');

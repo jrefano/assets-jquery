@@ -554,7 +554,7 @@
 
             scroll_destination = $('.formError').first().offset().top - 200;
 
-            $.Core.scrollElement().animate({ scrollTop: scroll_destination}, 1100);
+            $('html:not(:animated), body:not(:animated)').animate({ scrollTop: scroll_destination}, 1100);
 
           }
 
@@ -617,7 +617,7 @@
           str, pattern, result;
 
       if ( !getRules ) {
-        $.Core.exception( "No rules for ", rulesParsing, $input );
+        throw new Error('No rules for ' + rulesParsing);
       }
 
       str          = getRules[1];
@@ -911,7 +911,7 @@
           if ( $destination_el.length  ) {
 
             destination = $destination_el.offset().top - 200;
-            $.Core.scrollElement().animate({ scrollTop: destination}, 1100);
+            $('html:not(:animated), body:not(:animated)').animate({ scrollTop: destination}, 1100);
 
           }
 
