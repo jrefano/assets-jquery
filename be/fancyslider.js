@@ -58,7 +58,8 @@
         return;
       }
 
-      if (+val || val === 0) {
+      // Default when the input is invalid
+      if (isNaN(val)) {
         val = (options.input === 'value') ? $slider.slider('value') : options.percent_default;
       }
 
