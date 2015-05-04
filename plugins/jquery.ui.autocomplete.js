@@ -85,7 +85,8 @@
         noEnterText           : 'You must select an option on the list.', // Text used for validation bubble
         defaultValues         : {},                                       // an object keyed by *something* which maps to an array of default values
         delay                 : 150,                                      // delay for throttler
-        noIdConstant          : '__NO_ID_CONSTANT__'                      // the ID given to options that do not have a mappable ID ( used for location DB )
+        noIdConstant          : '__NO_ID_CONSTANT__',                     // the ID given to options that do not have a mappable ID ( used for location DB )
+        xhr                   : $.ajax
     },
 
     _open             : false,
@@ -806,7 +807,7 @@
         }
         else {
 
-          $.ajax({
+          thisObj.options.xhr({
             url      : thisObj.options.data_src,
             success  : function ( json ) {
 
@@ -867,7 +868,7 @@
         }
         else {
 
-          $.ajax({
+          thisObj.options.xhr({
             url      : thisObj.options.favorites_src,
             type     : thisObj.options.ajax_type,
             dataType : thisObj.options.ajax_dataType,
