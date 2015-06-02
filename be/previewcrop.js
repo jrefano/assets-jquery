@@ -5,7 +5,7 @@ define([
   'lib/showMessages',
   'be/buttons',
   'be/xhr',
-  'jquery/ui/widget',
+  'jqueryui/widget',
   'jquery/plugins/jquery.Jcrop',
   'css!styles/jquery/jcrop.css'
 ], function($, showMessages, buttons, xhr) {

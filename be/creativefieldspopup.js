@@ -1,10 +1,10 @@
 define([
   'jquery',
-  'jquery/be/bubblelist',
+  './bubblelist',
   'be/modal/simple',
   'lib/showMessages',
   'hgn!templates/discover/sort-fields',
-  'jquery/ui/widget'
+  'jqueryui/widget'
 ], function($, bubblelist, simple, showMessages, fieldsTmpl) {
   'use strict';
 

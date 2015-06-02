@@ -2,8 +2,8 @@ define([
   'jquery',
   'be/cookie',
   'utils/colors',
-  'jquery/ui/draggable',
-  'jquery/ui/slider'
+  'jqueryui/draggable',
+  'jqueryui/slider'
 ], function($, cookie, Colors) {
   'use strict';
 
