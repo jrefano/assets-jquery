@@ -2,7 +2,7 @@
 (function(factory) {
   'use strict';
   if (typeof define === 'function' && define.amd) {
-    define(['jquery', 'jquery/be/autosuggest'], function() {
+    define(['jquery', './autosuggest'], function() {
       var module = factory.apply(this, arguments);
       return module;
     });

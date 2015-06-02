@@ -7,8 +7,8 @@
   'use strict';
   if (typeof define === 'function' && define.amd) {
     define(['jquery',
-            'jquery/be/bubblelist',
-            'jquery/ui/widget' ], function() {
+            './bubblelist',
+            'jqueryui/widget' ], function() {
       var module = factory.apply(this, arguments);
       return module;
     });
