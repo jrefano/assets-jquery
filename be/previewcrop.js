@@ -6,7 +6,7 @@ define([
   'be/buttons',
   'be/xhr',
   'jqueryui/widget',
-  'jquery/plugins/jquery.Jcrop',
+  '../plugins/jquery.Jcrop',
   'css!styles/jquery/jcrop.css'
 ], function($, showMessages, buttons, xhr) {
   'use strict';
