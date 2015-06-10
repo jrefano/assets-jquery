@@ -46,10 +46,29 @@
     _$hiddenWidth : false,
     $_list         : false,
 
+    _ignore_blur: false,
+
+    _handleBlur: function(e) {
+      var element = e.target;
+
+      if ( this._ignore_blur === true ) {
+        this._ignore_blur = false;
+        return;
+      }
+
+      // If value is good on blur, create
+      if ( this._good_value( element.value ) ) {
+        this._create_bubble_from_input( element, false );
+      }
+      // Otherwise blank out field
+      else {
+        element.value = '';
+      }
+    },
+
     _init : function() {
 
-      var textboxlist  = this,
-          ignore_blur  = false;
+      var textboxlist  = this;
 
        this.keycodes[ $.ui.keyCode.COMMA ]     = ',';
        this.keycodes[ $.ui.keyCode.COLON ]     = ':';
@@ -91,25 +110,6 @@
 
       this.$_list.addClass('ui-textboxlist');
       this.element.after( this._$hiddenWidth );
-
-      if ( this.options.ignore_blur_override !== true ) {
-
-        this.$_list.on('blur', 'input', function( e ) {
-          if ( ignore_blur === true ) {
-            ignore_blur = false;
-            return;
-          }
-
-          // If value is good on blur, create
-          if ( textboxlist._good_value( this.value ) ) {
-            textboxlist._create_bubble_from_input( this, false );
-          }
-          // Otherwise blank out field
-          else {
-            this.value = '';
-          }
-        });
-      }
 
 
       // if comma will make new bubbles
@@ -199,7 +199,7 @@
 
         // if key is going to create bubble, no need to pay attention on blur
         if ( $.inArray( e.keyCode, textboxlist.options.create_keys ) ) {
-          ignore_blur = true;
+          textboxlist._ignore_blur = true;
         }
 
 
@@ -209,7 +209,7 @@
         // input.value is not set yet
         setTimeout( function() {
 
-          ignore_blur = false;
+          textboxlist._ignore_blur = false;
 
           var words        = [],
               word_count   = 0,
@@ -491,6 +491,10 @@
 
       if ( auto_focus === true ) {
         $input.focus();
+      }
+
+      if ( this.options.ignore_blur_override !== true ) {
+        $input.on('blur', this._handleBlur.bind(this));
       }
 
       return $input;
