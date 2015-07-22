@@ -26,17 +26,20 @@
         return items.some(function(value) {
           return term === String(value.label || value.value || value).toLowerCase();
         });
-      }
+      },
+      prepend: false
     },
 
     _noMatch: function(ul, items) {
-      var templater = this.options.noMatchTemplate;
+      var templater = this.options.noMatchTemplate,
+          prepend = this.options.prepend;
+
       if ($.isFunction(templater)) {
         $(templater({
           term: this.term,
           items: items
         }))
-        .appendTo(this.menu.element)
+        [prepend ? 'prependTo' : 'appendTo'](this.menu.element)
         .on('mouseover', function() {
           $(this).parent().find('.ui-state-focus').removeClass('ui-state-focus');
         });
