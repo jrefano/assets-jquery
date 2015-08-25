@@ -14,7 +14,14 @@ define([
     options: {
       limit: 3,
       populars: [],
-      fields: []
+      fields: [],
+      buttons: [{
+        label: "Done",
+        classes: ['form-button-default', 'js-confirm']
+      }, {
+        label: "Cancel",
+        classes: ['form-button-cancel', 'js-cancel']
+      }]
     },
 
     _setOption: function(key, value) {
@@ -93,13 +100,7 @@ define([
           $fieldLists, $popup, popOptions, modal, $fullList;
 
       popOptions = {
-        buttons: [{
-          label: "Done",
-          classes: ['form-button-default', 'js-confirm']
-        }, {
-          label: "Cancel",
-          classes: ['form-button-cancel', 'js-cancel']
-        }],
+        buttons: this.options.buttons,
         hideClose: true,
         html: fieldsTmpl({
           mustSelect: true,
