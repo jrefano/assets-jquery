@@ -26,6 +26,8 @@ define([
       auto_swatch_update: true,
       auto_target_update: true,
       default_spot_color: 'D5D5D5',
+      label_add: 'Add',
+      label_replace: 'Replace',
       spot_colors: [
         'unselected',
         'unselected',
@@ -415,10 +417,10 @@ define([
 
           $spots.removeClass('selected');
           $spot.addClass('selected');
-          $addColor.text('Add');
+          $addColor.text(opts.label_add);
 
           if (opts.default_spot_color !== newHex) {
-            $addColor.text('Replace');
+            $addColor.text(opts.label_replace);
           }
         });
       }.bind(this)); // $spots each
@@ -440,7 +442,7 @@ define([
 
         $selected.css('background-color', '#' + $input.val());
 
-        $addColor.text('Replace');
+        $addColor.text(opts.label_replace);
 
         cookie("spot_colors", opts.spot_colors.join(','), {
           path: '/',
@@ -450,7 +452,7 @@ define([
       }); // $addColor
 
       if ($spots.filter(':data(unselected)').length === 0) {
-        $addColor.text('Replace');
+        $addColor.text(opts.label_replace);
       }
     }, // _initSpots
 
