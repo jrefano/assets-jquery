@@ -1,6 +1,6 @@
 define([
   'jquery',
-  'be/cookie',
+  'beff/util/cookie',
   'utils/colors',
   'jqueryui/draggable',
   'jqueryui/slider'
