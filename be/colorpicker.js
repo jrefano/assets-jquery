@@ -394,8 +394,8 @@ define([
     _initSpots: function(widget) {
       var opts = widget.options;
 
-      if (cookie('spot_colors')) {
-        opts.spot_colors = cookie('spot_colors').split(',');
+      if (cookie.get('spot_colors')) {
+        opts.spot_colors = cookie.get('spot_colors').split(',');
       }
 
       $spots.each(function(inc, spot) {
@@ -444,7 +444,7 @@ define([
 
         $addColor.text(opts.label_replace);
 
-        cookie("spot_colors", opts.spot_colors.join(','), {
+        cookie.set("spot_colors", opts.spot_colors.join(','), {
           path: '/',
           secure: false,
           expires: new Date(9999999999999)
